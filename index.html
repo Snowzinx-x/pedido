@@ -24,7 +24,7 @@ body{background:radial-gradient(ellipse at 50% 105%,rgba(229,35,63,.38),transpar
   font-family:'Nunito',system-ui,sans-serif; overflow-x:hidden}
 .stage{position:relative; z-index:1; min-height:100dvh; display:flex; flex-direction:column;
   align-items:center; justify-content:center; padding:12px 16px 26px; gap:6px}
-.glow{position:absolute; left:50%; top:42%; width:min(140vw,700px); aspect-ratio:1; border-radius:50%;
+.glow{position:fixed; left:var(--lx,50%); top:var(--ly,42%); width:min(140vw,700px); aspect-ratio:1; border-radius:50%;
   transform:translate(-50%,-50%) scale(.4); opacity:0; pointer-events:none;
   background:radial-gradient(circle,var(--glow),transparent 65%); animation:glow 3.5s ease-out .5s forwards}
 @keyframes glow{to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
@@ -102,8 +102,8 @@ body:not(.go) .gate,body:not(.go) .gate *{animation-play-state:running !importan
 /* abertura de cinema */
 .cb{position:fixed; top:0; left:0; right:0; bottom:0; z-index:7; background:#06010d; pointer-events:none; animation:fadeout 1.3s ease .3s forwards}
 @keyframes fadeout{to{opacity:0}}
-.dim{position:fixed; top:0; left:0; right:0; bottom:0; z-index:4; pointer-events:none; background:radial-gradient(circle min(70vw,340px) at 50% 46%,transparent 30%,rgba(6,1,14,.96) 100%); animation:fadeout 2.6s ease 4.8s forwards}
-.beam{position:fixed; top:0; left:50%; width:min(96vw,720px); height:100%; margin-left:calc(min(96vw,720px)/-2); z-index:5; pointer-events:none; clip-path:polygon(41% 0,59% 0,100% 100%,0 100%); background:linear-gradient(180deg,rgba(255,238,190,.7),rgba(255,238,190,.05) 88%); mix-blend-mode:screen; transform-origin:50% 0; opacity:0; animation:beam 7s ease .3s forwards}
+.dim{position:fixed; top:0; left:0; right:0; bottom:0; z-index:4; pointer-events:none; background:radial-gradient(circle min(70vw,340px) at var(--lx,50%) var(--ly,46%),transparent 30%,rgba(6,1,14,.96) 100%); animation:fadeout 2.6s ease 4.8s forwards}
+.beam{position:fixed; top:0; left:var(--lx,50%); width:min(96vw,720px); height:100%; margin-left:calc(min(96vw,720px)/-2); z-index:5; pointer-events:none; clip-path:polygon(41% 0,59% 0,100% 100%,0 100%); background:linear-gradient(180deg,rgba(255,238,190,.7),rgba(255,238,190,.05) 88%); mix-blend-mode:screen; transform-origin:50% 0; opacity:0; animation:beam 7s ease .3s forwards}
 @keyframes beam{0%{opacity:0; transform:scaleY(.15)}12%{opacity:1; transform:scaleY(1)}70%{opacity:1}100%{opacity:.22}}
 .lb{position:fixed; left:0; right:0; height:11vh; background:#000; z-index:6; pointer-events:none}
 .lb.t{top:0; animation:lbt 1.3s cubic-bezier(.6,0,.3,1) 4.8s forwards}
@@ -576,7 +576,8 @@ body:not(.go) .gate,body:not(.go) .gate *{animation-play-state:running !importan
     }
     function tilt(a,b){ art.style.transform='perspective(900px) rotateY('+f(a*8)+'deg) rotateX('+f(-b*6)+'deg)'; }
     addEventListener('pointermove',function(e){ if(e.pointerType==='touch') return; tilt(e.clientX/innerWidth*2-1,e.clientY/innerHeight*2-1); });
-    addEventListener('deviceorientation',function(e){ if(e.gamma==null||e.beta==null) return; tilt(Math.max(-1,Math.min(1,e.gamma/30)),Math.max(-1,Math.min(1,(e.beta-45)/30))); });
+    var base=null;
+    addEventListener('deviceorientation',function(e){ if(e.gamma==null||e.beta==null) return; if(!base) base={g:e.gamma,b:e.beta}; tilt(Math.max(-1,Math.min(1,(e.gamma-base.g)/30)),Math.max(-1,Math.min(1,(e.beta-base.b)/30))); });
   })();
 
   // ---- sons (sintetizados, sem arquivos) e vibração ----
@@ -798,6 +799,20 @@ body:not(.go) .gate,body:not(.go) .gate *{animation-play-state:running !importan
     setTimeout(function(){ env.classList.add('out'); letter.classList.add('on'); letter.scrollTop=0; setTimeout(writeLetter,700); },2300);
     setTimeout(function(){ env.style.display='none'; },3100);
   });
+  // ---- centraliza a luz (holofote e brilho) no buquê, em qualquer tela ----
+  (function(){
+    var art=$('art'), root=document.documentElement.style, lx=-1, ly=-1;
+    function relight(){
+      var r=art.getBoundingClientRect();
+      if(r.width>0){
+        var x=r.left+r.width/2, y=r.top+r.height*.45;
+        if(Math.abs(x-lx)>.5||Math.abs(y-ly)>.5){ lx=x; ly=y; root.setProperty('--lx',x.toFixed(1)+'px'); root.setProperty('--ly',y.toFixed(1)+'px'); }
+      }
+      requestAnimationFrame(relight);
+    }
+    relight();
+  })();
+
   // ---- entrada: tenta tocar a música sozinha; se o navegador bloquear, pede um toque ----
   (function(){
     var gate=$('gate'), done=false;
