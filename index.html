@@ -120,6 +120,24 @@ body:not(.go) .gate,body:not(.go) .gate *{animation-play-state:running !importan
 .bk{opacity:0; animation:bk 7s ease-in-out infinite}
 @keyframes bk{0%,100%{opacity:.15; transform:translate(0,0) scale(.85)}50%{opacity:.8; transform:translate(6px,-10px) scale(1.12)}}
 
+/* aliança */
+.ringscene{position:fixed; top:0; left:0; right:0; bottom:0; z-index:3; display:none; flex-direction:column; align-items:center; justify-content:center; gap:6px}
+.ringscene.on{display:flex}
+.ringscene.out{animation:envout .7s ease forwards}
+.ringsvg{width:min(78vw,340px); height:auto; overflow:visible; animation:boxin 1s cubic-bezier(.2,1.3,.4,1) both}
+@keyframes boxin{from{opacity:0; transform:translateY(80px) scale(.85)}to{opacity:1; transform:none}}
+.lidc{transform-origin:150px 138px; animation:lidc .5s ease 1.4s forwards}
+@keyframes lidc{to{transform:scaleY(-.35); opacity:0}}
+.lido{transform:scaleY(0); transform-origin:150px 138px; animation:lido .7s cubic-bezier(.2,1.4,.4,1) 1.5s forwards}
+@keyframes lido{to{transform:scaleY(1)}}
+.rring{transform:translateY(70px); animation:ringup .9s cubic-bezier(.2,1.1,.4,1) 2.1s forwards}
+@keyframes ringup{to{transform:translateY(0)}}
+.rglow{opacity:0; transform:scale(.4); transform-origin:150px 112px; animation:glowin 1.2s ease 2.2s forwards}
+@keyframes glowin{to{opacity:1; transform:scale(1)}}
+.twk{opacity:0; animation:twk 1.8s ease-in-out infinite}
+@keyframes twk{0%,100%{opacity:0; transform:scale(.2) rotate(0)}50%{opacity:1; transform:scale(1) rotate(45deg)}}
+.ringcap{margin:0; font-family:'Caveat','Segoe Script',cursive; font-size:2rem; font-weight:700; color:#ffe9b8; text-shadow:0 2px 12px rgba(0,0,0,.5); opacity:0; animation:fade 1s ease 2.8s forwards}
+
 /* envelope */
 .env{position:fixed; top:0; left:0; right:0; bottom:0; z-index:3; display:none; flex-direction:column; align-items:center; justify-content:center; gap:30px}
 .env.on{display:flex; animation:envin .9s cubic-bezier(.2,1.2,.4,1) both}
@@ -132,11 +150,14 @@ body:not(.go) .gate,body:not(.go) .gate *{animation-play-state:running !importan
 @keyframes bob{50%{transform:translateY(-8px)}}
 .env.open .env-box{animation:none}
 .env-back,.env-front,.env-flap,.env-paper{position:absolute; left:0; width:100%}
-.env-back{top:0; height:100%; background:#8f1230; border-radius:6px; z-index:1}
+.env-back{top:0; height:100%; background:var(--grain),radial-gradient(ellipse at 50% 20%,rgba(0,0,0,0),rgba(0,0,0,.4)),repeating-linear-gradient(135deg,#5a1a8c 0 9px,#6b2aa3 9px 18px); border-radius:6px; z-index:1}
+.env-box{--grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35 0 0 0 0 .28 0 0 0 0 .2 0 0 0 .22 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
 .env-paper{left:6%; width:88%; top:7%; height:86%; background:#fff8ea repeating-linear-gradient(180deg,transparent 0 16px,rgba(200,50,90,.2) 16px 18px); border-radius:3px; z-index:2}
-.env-front{top:0; height:100%; background:linear-gradient(160deg,#e0314f,#c01c3b); clip-path:polygon(0 0,50% 54%,100% 0,100% 100%,0 100%); z-index:3}
-.env-flap{top:0; height:56%; background:linear-gradient(180deg,#b01832,#d0263f); clip-path:polygon(0 0,100% 0,50% 100%); transform-origin:50% 0; z-index:4}
-.env-seal{position:absolute; left:50%; top:54%; width:56px; height:56px; margin:-28px 0 0 -28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.7rem; color:#b3122f; background:radial-gradient(circle at 35% 30%,#ffe08a,#e0a21c 70%); box-shadow:0 3px 8px rgba(0,0,0,.45),inset 0 -3px 6px rgba(150,90,0,.4); z-index:5; animation:beat2 1.6s ease-in-out infinite}
+.env-front{top:0; height:100%; background:var(--grain),linear-gradient(165deg,#fcf5e6,#eadcc0); clip-path:polygon(0 0,50% 54%,100% 0,100% 100%,0 100%); border-radius:0 0 6px 6px; z-index:3}
+.env-deco{position:absolute; left:0; top:0; width:100%; height:100%; z-index:3; pointer-events:none}
+.env-flap{top:0; height:56%; background:var(--grain),linear-gradient(180deg,#f6ead2 0%,#ead9ba 82%,#d6c19a 100%); clip-path:polygon(0 0,100% 0,50% 100%); transform-origin:50% 0; border-radius:6px 6px 0 0; z-index:4}
+.env-seal{position:absolute; left:50%; top:54%; width:62px; height:62px; margin:-31px 0 0 -31px; border-radius:48% 52% 50% 50%/52% 46% 54% 48%; display:flex; align-items:center; justify-content:center; font-size:1.9rem; color:#8f0b22; text-shadow:0 1px 0 rgba(255,255,255,.35),0 -1px 0 rgba(0,0,0,.35); background:radial-gradient(circle at 35% 30%,#ff7385,#d11a38 52%,#8a0a20); box-shadow:inset 0 0 0 5px rgba(255,255,255,.07),inset 0 -5px 9px rgba(0,0,0,.4),inset 0 3px 5px rgba(255,255,255,.25),0 5px 10px rgba(0,0,0,.45); z-index:5; animation:beat2 1.6s ease-in-out infinite}
+.env-seal::before{content:''; position:absolute; top:8px; left:8px; right:8px; bottom:8px; border-radius:50%; border:2px solid rgba(0,0,0,.22); box-shadow:0 1px 0 rgba(255,255,255,.25)}
 @keyframes beat2{0%,100%{transform:scale(1)}15%{transform:scale(1.14)}30%{transform:scale(1)}45%{transform:scale(1.08)}}
 .env.open .env-seal{animation:sealpop .45s ease forwards}
 @keyframes sealpop{to{transform:scale(1.7); opacity:0}}
@@ -253,12 +274,68 @@ body:not(.go) .gate,body:not(.go) .gate *{animation-play-state:running !importan
   <div class="lwrap"><div class="sheet" id="sheet"></div></div>
   <p class="hint" id="hint">toque pra pular a digitação</p>
 </div>
+<div class="ringscene" id="ring" aria-hidden="true">
+  <svg class="ringsvg" viewBox="0 0 300 260">
+    <defs>
+      <linearGradient id="rV" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c8233f"/><stop offset="1" stop-color="#7a0e26"/></linearGradient>
+      <linearGradient id="rGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3b0"/><stop offset=".5" stop-color="#e3a622"/><stop offset="1" stop-color="#9a6a0a"/></linearGradient>
+      <linearGradient id="rSat" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff8e8"/><stop offset="1" stop-color="#e8d3a8"/></linearGradient>
+      <linearGradient id="rDia" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#bfe7ff"/><stop offset="1" stop-color="#86aef0"/></linearGradient>
+      <radialGradient id="rGlow"><stop offset="0" stop-color="#fff6c8" stop-opacity=".95"/><stop offset=".5" stop-color="#ffd36b" stop-opacity=".35"/><stop offset="1" stop-color="#ffd36b" stop-opacity="0"/></radialGradient>
+      <radialGradient id="rSh"><stop offset="0" stop-color="#000" stop-opacity=".5"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    </defs>
+    <ellipse cx="150" cy="238" rx="100" ry="9" fill="url(#rSh)"/>
+    <circle class="rglow" cx="150" cy="112" r="95" fill="url(#rGlow)"/>
+    <g class="lido">
+      <path d="M78,138 L90,62 Q150,52 210,62 L222,138Z" fill="#8e1230"/>
+      <path d="M88,134 L98,70 Q150,62 202,70 L212,134Z" fill="url(#rSat)"/>
+    </g>
+    <path d="M70,138 L230,138 L238,164 L62,164Z" fill="#9b1432"/>
+    <ellipse cx="150" cy="152" rx="56" ry="6" fill="#3b0612"/>
+    <g class="rring">
+      <circle cx="150" cy="128" r="22" fill="none" stroke="url(#rGold)" stroke-width="6"/>
+      <circle cx="150" cy="128" r="19" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.2"/>
+      <path d="M134,92 L141,82 L159,82 L166,92 L150,106Z" fill="url(#rDia)" stroke="#fff" stroke-width=".8"/>
+      <path d="M134,92 L166,92 M141,82 L147,92 L150,106 M159,82 L153,92 L150,106" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width=".8"/>
+    </g>
+    <path d="M62,150 L238,150 L238,164 L62,164Z" fill="#6e0b21"/>
+    <path d="M62,164 L238,164 L238,214 Q238,226 226,226 L74,226 Q62,226 62,214Z" fill="url(#rV)"/>
+    <rect x="62" y="164" width="176" height="4" fill="url(#rGold)"/>
+    <rect x="140" y="180" width="20" height="14" rx="3" fill="url(#rGold)"/>
+    <g class="lidc">
+      <path d="M62,138 Q62,134 70,134 L230,134 Q238,134 238,138 L238,168 L62,168Z" fill="url(#rV)"/>
+      <rect x="62" y="164" width="176" height="4" fill="url(#rGold)"/>
+      <rect x="140" y="142" width="20" height="14" rx="3" fill="url(#rGold)"/>
+    </g>
+    <g transform="translate(112,84)"><g class="twk" style="animation-delay:2.4s"><path d="M0,-8 L2,-2 L8,0 L2,2 L0,8 L-2,2 L-8,0 L-2,-2Z" fill="#fff"/></g></g>
+    <g transform="translate(190,78)"><g class="twk" style="animation-delay:2.6s"><path d="M0,-8 L2,-2 L8,0 L2,2 L0,8 L-2,2 L-8,0 L-2,-2Z" fill="#ffe08a"/></g></g>
+    <g transform="translate(150,50)"><g class="twk" style="animation-delay:2.8s"><path d="M0,-8 L2,-2 L8,0 L2,2 L0,8 L-2,2 L-8,0 L-2,-2Z" fill="#fff"/></g></g>
+    <g transform="translate(98,126)"><g class="twk" style="animation-delay:3.0s"><path d="M0,-8 L2,-2 L8,0 L2,2 L0,8 L-2,2 L-8,0 L-2,-2Z" fill="#ffe08a"/></g></g>
+    <g transform="translate(204,124)"><g class="twk" style="animation-delay:3.2s"><path d="M0,-8 L2,-2 L8,0 L2,2 L0,8 L-2,2 L-8,0 L-2,-2Z" fill="#fff"/></g></g>
+    <g transform="translate(130,62)"><g class="twk" style="animation-delay:3.4s"><path d="M0,-8 L2,-2 L8,0 L2,2 L0,8 L-2,2 L-8,0 L-2,-2Z" fill="#ffe08a"/></g></g>
+  </svg>
+  <p class="ringcap">agora é oficial 💍</p>
+</div>
 <div class="env" id="env">
   <button class="env-btn" id="envBtn" type="button" aria-label="Abrir a carta">
     <div class="env-box">
       <div class="env-back"></div>
       <div class="env-paper"></div>
       <div class="env-front"></div>
+      <svg class="env-deco" viewBox="0 0 340 224" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,224 L150,126 M340,224 L190,126" stroke="#000" stroke-opacity=".09" stroke-width="1.2" fill="none"/>
+        <path d="M0,222 L150,124 M340,222 L190,124" stroke="#fff" stroke-opacity=".5" stroke-width="1" fill="none"/>
+        <g transform="rotate(4 285 150)">
+          <rect x="262" y="122" width="46" height="56" fill="#fffaf0" stroke="#e3d6bb" stroke-width="1.5" stroke-dasharray="2.5 2.5"/>
+          <rect x="268" y="128" width="34" height="44" fill="#5a1a8c"/>
+          <path d="M285,160 C270,150 272,140 279,140 C282,140 284,142 285,144 C286,142 288,140 291,140 C298,140 300,150 285,160Z" fill="#ff5c7a"/>
+          <text x="285" y="167" text-anchor="middle" font-size="5" fill="#ffd36b" font-family="Nunito,sans-serif" font-weight="700">AMOR</text>
+        </g>
+        <circle cx="246" cy="150" r="19" fill="none" stroke="#3b2a66" stroke-opacity=".3" stroke-width="1.2"/>
+        <path d="M232,144 q4,-3 8,0 t8,0 t8,0 M232,152 q4,-3 8,0 t8,0 t8,0" fill="none" stroke="#3b2a66" stroke-opacity=".3" stroke-width="1.2"/>
+        <text x="48" y="176" font-size="28" fill="#5a1a8c" font-family="Caveat,'Segoe Script',cursive" font-weight="700">Para: você</text>
+        <path d="M48,188 L220,188 M48,206 L190,206" stroke="#5a1a8c" stroke-opacity=".22" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
       <div class="env-flap"></div>
       <div class="env-seal">♥</div>
     </div>
@@ -603,6 +680,7 @@ body:not(.go) .gate,body:not(.go) .gate *{animation-play-state:running !importan
     dodge:function(){tone(700,.08,'sine',.07,0,480);},
     seal:function(){tone(300,.12,'sine',.12,0,700); tone(900,.35,'triangle',.06,.1);},
     paper:function(){tone(220,.7,'sine',.04,0,1100);},
+    ring:function(){[1319,1568,2093,2637].forEach(function(fr,i){tone(fr,.5,'sine',.05,i*.07);});},
     drop:function(){tone(180,.12,'sine',.1,0,90);},
     tile:function(){tone(660,.1,'sine',.1,0,990);},
     yes:function(){[523,659,784,1047,1319].forEach(function(fr,i){tone(fr,.5,'triangle',.07,i*.09);});}
@@ -724,21 +802,22 @@ body:not(.go) .gate,body:not(.go) .gate *{animation-play-state:running !importan
     "Eu não sei iniciar muito bem essa carta, mas provavelmente, quando você estiver lendo isso, você vai estar com a aliança no dedo, ksks.",
     {img:0},
     "Eu preciso dizer que te amo mais a cada dia que você passa na minha vida. Amo escutar qualquer uma das suas besteiras que você tem pra falar; na verdade, você nem precisa falar, eu já amo passar momentos ao seu lado.",
-    "Esses momentos são inesquecíveis, sensações que sempre vão ficar pra nos fazer lembrar dos sonhos, dos beijos, de tantos momentos bons.",
+    "Esses momentos são inesquecíveis, sensações que sempre vão ficar pra nos fazer lembrar dos sonhos, dos beijos, de todos momentos bons.",
     {img:1},
     "Eu quero viver com você um amor que os poetas invejem. Meu amor, eu te prometo, a cada momento, te fazer feliz. Você me mostrou que o amor pode ser fácil.",
     "Quero que você saiba que nada no mundo que eu faça significa algo sem você. Você é o meu meio de vida, o único meio que EU conheço. Eu tenho a sensação de que tinha que ser você, porque em você eu finalmente encontrei alguém que poderia me fazer ser verdadeiro.",
     {img:2},
     "Eu tenho você no fundo do meu coração, tão fundo que você realmente é uma parte de mim. Eu sacrificaria qualquer coisa, aconteça o que acontecer, para ter você por perto. Queria ser a pele do seu corpo, para assim estar junto com você a todo tempo, e todas as horas que o tempo tem pra me conceder são tuas até morrer.",
-    "O meu amor por você é o mais puro que alguém poderia ter, e ele é teu, SÓ teu. Eu te adoro em tudo o que é possível. Eu quero você mais que tudo nesta vida; eu quero te amar sem limites. Esse é o nível de pureza do meu amor.",
+    "O meu amor por você é o mais puro que alguém poderia ter, e ele é teu, SÓ teu. eu te adoro em tudo oq e possível, seus olhos, boca ate msm seu nariz que eu sei q você não gosta muito, mas eu sou perdidamente apaixonado em tudo oque a em você ,amor eu passaria horas só te olhando sem dizer uma única palavra, eu só quero q vc entenda q eu quero você mais que tudo nessa vida; eu quero te amar sem limites. Esse é o nível de pureza do meu amor.",
     {img:3},
-    "Te amo e não tem jeito: você é minha sina. Você me alucina, te amar é bom demais, menina. Poderia dizer que, num piscar de olhos, me entreguei, porque agora eu não penso mais em nada além de te ter. Passa o tempo que for e você não sai da minha cabeça.",
+    "Te amo e não tem jeito: você é minha sina. Você me alucina, te amar é bom demais. Poderia dizer que, num piscar de olhos, me entreguei, porque agora eu não penso mais em nada além de te ter, passa o tempo que for e você não sai da minha cabeça.",
     {img:4},
     "Entre poucas certezas na vida, você é uma delas. Eu vou te fazer feliz porque eu te amo; diria que só sei viver se for por você. Eu estou me entregando de corpo e alma e espero que você faça o mesmo.",
-    "Enfim, eu amo você, menina, e quero construir um futuro ao seu lado.",
+    "Enfim, eu amo você, menina, e nunca vou me cansar de te falar q você É a mulher da minha vida. Um dos meu maiores sonhos é construir um futuro ao seu lado.",
     {img:5},
-    "Com todo o meu amor 💛"
+    "Com todo o meu amor BOING BOING BOING 💛"
   ];
+  var TYPE_MS=40, PUNCT_MS=260, PARA_MS=700, PHOTO_MS=1900; // velocidade da digitação da carta (maior = mais lento)
   var skip=false, auto=true, waiters=[], letter=$('letter');
   function wait(ms){return new Promise(function(r){var t=setTimeout(r,ms); waiters.push(function(){clearTimeout(t); r();});});}
   letter.addEventListener('click',function(){skip=true; $('hint').style.display='none'; waiters.splice(0).forEach(function(w){w();});});
@@ -754,9 +833,9 @@ body:not(.go) .gate,body:not(.go) .gate *{animation-play-state:running !importan
         for(k=0;k<ch.length;k++){
           p.textContent+=ch[k];
           if(auto) letter.scrollTop=letter.scrollHeight;
-          if(!skip) await wait(/[,.;]/.test(ch[k])?140:18);
+          if(!skip) await wait(/[,.;!?]/.test(ch[k])?PUNCT_MS:TYPE_MS);
         }
-        if(!skip) await wait(400);
+        if(!skip) await wait(PARA_MS);
       } else {
         d=document.createElement('div'); d.className='pola '+(n%2?'r':'l'); d.style.setProperty('--r',(n%2?-4:5)+'deg'); n++;
         im=document.createElement('img'); im.src=PHOTOS[b.img]; im.alt='Foto de vocês'; im.style.objectPosition=POS[b.img]||'50% 30%';
@@ -764,7 +843,7 @@ body:not(.go) .gate,body:not(.go) .gate *{animation-play-state:running !importan
         var hh0=d.offsetHeight, mt0=15, tot0=Math.ceil((hh0+mt0)/30)*30; d.style.marginTop=mt0+'px'; d.style.marginBottom=(tot0-hh0-mt0)+'px';
         void d.offsetWidth; d.classList.add('in'); sfx('drop');
         if(auto) letter.scrollTop=letter.scrollHeight;
-        if(!skip) await wait(1300);
+        if(!skip) await wait(PHOTO_MS);
       }
     }
     if(!skip) await wait(600);
@@ -790,7 +869,12 @@ body:not(.go) .gate,body:not(.go) .gate *{animation-play-state:running !importan
   }
   function openLetter(){
     var st=$('stage'); st.classList.add('out');
-    setTimeout(function(){ st.style.display='none'; $('env').classList.add('on'); },800);
+    setTimeout(function(){
+      st.style.display='none'; var rg=$('ring'); rg.classList.add('on');
+      setTimeout(function(){ sfx('ring'); vib(20); },1500);
+      setTimeout(function(){ sfx('ring'); },2200);
+      setTimeout(function(){ rg.classList.add('out'); $('env').classList.add('on'); setTimeout(function(){ rg.style.display='none'; },800); },5400);
+    },800);
   }
   $('envBtn').addEventListener('click',function(){
     var env=$('env'); if(env.classList.contains('open')) return;
